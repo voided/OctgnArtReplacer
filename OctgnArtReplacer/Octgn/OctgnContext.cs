@@ -54,6 +54,14 @@ namespace OctgnArtReplacer.Octgn
             return Set.LoadFromFileAsync(setFileName);
         }
 
+        /// <summary>
+        /// Is OCTGN installed?
+        /// </summary>
+        public bool IsOctgnInstalled => Directory.Exists(GameDatabasePath);
+        /// <summary>
+        /// Is the game definition specified by this context installed?
+        /// </summary>
+        public bool IsInstalled => Directory.Exists(GetSetsPath());
 
         protected abstract Guid GetGameId();
 

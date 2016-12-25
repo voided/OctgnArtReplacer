@@ -37,6 +37,18 @@ namespace OctgnArtReplacer.Replacer
 
         public async Task<VerificationResult> Verify()
         {
+            if (!_octgnContext.IsOctgnInstalled)
+            {
+                Log.Error("Error: OCTGN is not installed");
+                return VerificationResult.Fail;
+            }
+
+            if (!_octgnContext.IsInstalled)
+            {
+                Log.Error("Error: Game definition is not installed");
+                return VerificationResult.Fail;
+            }
+
             var setList = await _octgnContext.GetSetsAsync();
             _set = setList
                 .FirstOrDefault(s => string.Equals(s.Name, _setName, StringComparison.OrdinalIgnoreCase));
