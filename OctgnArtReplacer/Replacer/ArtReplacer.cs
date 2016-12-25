@@ -6,6 +6,7 @@ using OctgnArtReplacer.Replacer.Images;
 using OctgnArtReplacer.Util;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,6 +38,12 @@ namespace OctgnArtReplacer.Replacer
 
         public async Task<VerificationResult> Verify()
         {
+            if (!Directory.Exists(_imageSourcePath))
+            {
+                Log.Error("Error: Unable to find image source path");
+                return VerificationResult.Fail;
+            }
+
             if (!_octgnContext.IsOctgnInstalled)
             {
                 Log.Error("Error: OCTGN is not installed");
@@ -58,7 +65,7 @@ namespace OctgnArtReplacer.Replacer
                 Log.Error($"Error: Unable to find set with the name \"{_setName}\"");
                 Log.Info("Available Sets:");
 
-                foreach (var set in setList)
+                foreach (var set in setList.OrderBy(s => s.Name))
                 {
                     Log.Info($"  {set.Name}");
                 }
