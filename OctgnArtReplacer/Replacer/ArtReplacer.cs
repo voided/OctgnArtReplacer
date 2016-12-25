@@ -117,7 +117,12 @@ namespace OctgnArtReplacer.Replacer
         {
             if (image.MultiverseId != null)
             {
-                return new[] { _set.GetCardByMultiverseId(image.MultiverseId.Value) };
+                Card card = _set.GetCardByMultiverseId(image.MultiverseId.Value);
+
+                if (card == null)
+                    return Enumerable.Empty<Card>();
+
+                return new[] { card };
             }
 
             return _set.GetCardsByName(image.CardName);
